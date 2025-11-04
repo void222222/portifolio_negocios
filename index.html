@@ -1153,10 +1153,9 @@
                 date: new Date().toLocaleString('pt-BR')
             };
 
-            // USE O NOVO SERVICE ID E O NOVO TEMPLATE ID
-        // SUBSTITUA A LINHA DE ENVIO POR ESTA:
-// Isso faz o EmailJS usar o Serviço Padrão (DEFAULT) da sua conta.
-emailjs.send('default_service', 'template_jhsltja', formData)
+   // ATUALIZE O SEU CÓDIGO COM ESTA LINHA:
+// Usando o Template ID no campo do Service ID para forçar a conexão.
+emailjs.send('template_jhsltja', 'template_jhsltja', formData)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     formMessage.textContent = 'Mensagem enviada com sucesso! Entrarei em contato em breve.';
