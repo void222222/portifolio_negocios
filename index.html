@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lucas Santos - Desenvolvedor Web especializado em criar sites modernos e acessíveis para pequenos negócios">
     <title>Lucas Santos - Desenvolvedor Web</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -851,7 +852,10 @@
                     </a>
                 </div>
                 <div class="about-image">
-                    <img src="euDeterno.jpg" alt="Lucas Santos - Desenvolvedor">
+                    <!-- Substitua por uma imagem real -->
+                    <div style="width:100%; height:500px; background:linear-gradient(135deg, var(--primary-color), #3b82f6); border-radius:12px; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5rem;">
+                        Imagem do Desenvolvedor
+                    </div>
                 </div>
             </div>
         </div>
@@ -1136,67 +1140,63 @@
             });
         });
 
-    // ... (restante do código JavaScript)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            const formMessage = document.getElementById('form-message');
+            
+            // VALIDAR reCAPTCHA PRIMEIRO
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                formMessage.textContent = 'Por favor, complete o reCAPTCHA para provar que você não é um robô.';
+                formMessage.className = 'form-message error';
+                formMessage.style.display = 'block';
+                return;
+            }
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            submitBtn.disabled = true;
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                business: document.getElementById('business').value,
+                message: document.getElementById('message').value,
+                date: new Date().toLocaleString('pt-BR')
+            };
 
-      document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    const formMessage = document.getElementById('form-message');
-    
-    // VALIDAR reCAPTCHA PRIMEIRO
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse) {
-        formMessage.textContent = 'Por favor, complete o reCAPTCHA para provar que você não é um robô.';
-        formMessage.className = 'form-message error';
-        formMessage.style.display = 'block';
-        return;
-    }
-    
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-    submitBtn.disabled = true;
-    
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        business: document.getElementById('business').value,
-        message: document.getElementById('message').value,
-        date: new Date().toLocaleString('pt-BR')
-    };
+            emailjs.send('service_se2fls2', 'template_ufpZ9n', formData)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    formMessage.textContent = 'Mensagem enviada com sucesso! Entrarei em contato em breve.';
+                    formMessage.className = 'form-message success';
+                    formMessage.style.display = 'block';
+                    document.getElementById('contactForm').reset();
+                    
+                    // RESETAR O reCAPTCHA
+                    grecaptcha.reset();
+                    
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    setTimeout(() => { formMessage.style.display = 'none'; }, 5000);
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    formMessage.textContent = 'Erro ao enviar mensagem. Por favor, tente novamente ou entre em contato diretamente pelo WhatsApp.';
+                    formMessage.className = 'form-message error';
+                    formMessage.style.display = 'block';
+                    
+                    // RESETAR O reCAPTCHA EM CASO DE ERRO TAMBÉM
+                    grecaptcha.reset();
+                    
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    setTimeout(() => { formMessage.style.display = 'none'; }, 5000);
+                });
+        });
 
-    // CORREÇÃO AQUI: Trocando 'template_ge28oei' para 'template_ufpZ9n'
-    // CÓDIGO CORRIGIDO NO SEU HTML/JS
-emailjs.send('service_se2fls2', 'template_ufpZ9n', formData)
-        .then(function(response) {
-            console.log('SUCCESS!', response.status, response.text);
-            formMessage.textContent = 'Mensagem enviada com sucesso! Entrarei em contato em breve.';
-            formMessage.className = 'form-message success';
-            formMessage.style.display = 'block';
-            document.getElementById('contactForm').reset();
-            
-            // RESETAR O reCAPTCHA
-            grecaptcha.reset();
-            
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            setTimeout(() => { formMessage.style.display = 'none'; }, 5000);
-        }, function(error) {
-            console.log('FAILED...', error);
-            formMessage.textContent = 'Erro ao enviar mensagem. Por favor, tente novamente ou entre em contato diretamente pelo WhatsApp.';
-            formMessage.className = 'form-message error';
-            formMessage.style.display = 'block';
-            
-            // RESETAR O reCAPTCHA EM CASO DE ERRO TAMBÉM
-            grecaptcha.reset();
-            
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            setTimeout(() => { formMessage.style.display = 'none'; }, 5000);
-        });
-});
-// ... (restante do código JavaScript)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
