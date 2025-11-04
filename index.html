@@ -1168,7 +1168,8 @@
                 date: new Date().toLocaleString('pt-BR')
             };
 
-            emailjs.send('service_se2fls2', 'template_ufpZ9n', formData)
+// No seu código JavaScript, troque a linha de envio para usar o SERVICE ID PADRÃO:
+emailjs.send('service_ao2fhz', 'template_jf4ac7q', formData)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     formMessage.textContent = 'Mensagem enviada com sucesso! Entrarei em contato em breve.';
