@@ -7,7 +7,6 @@
     <title>Lucas Santos - Desenvolvedor Web</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="text/javascript">
         (function() {
             emailjs.init("u4rel8st124487Gi2");    
@@ -1073,8 +1072,6 @@
                             <textarea id="message" class="form-control" placeholder="Conte-me sobre seu negócio e suas necessidades..." required></textarea>
                         </div>
                         
-                     
-                        
                         <button type="submit" class="btn" style="width: 100%;">
                             <i class="fas fa-paper-plane"></i>
                             Enviar Mensagem
@@ -1144,15 +1141,6 @@
             const originalText = submitBtn.innerHTML;
             const formMessage = document.getElementById('form-message');
             
-            // VALIDAR reCAPTCHA PRIMEIRO
-            const recaptchaResponse = grecaptcha.getResponse();
-            if (!recaptchaResponse) {
-                formMessage.textContent = 'Por favor, complete o reCAPTCHA para provar que você não é um robô.';
-                formMessage.className = 'form-message error';
-                formMessage.style.display = 'block';
-                return;
-            }
-            
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
             submitBtn.disabled = true;
             
@@ -1165,18 +1153,14 @@
                 date: new Date().toLocaleString('pt-BR')
             };
 
- 
-// USE O NOVO SERVICE ID E O NOVO TEMPLATE ID
-emailjs.send('service_opdy6d8', 'template_jfsltja', formData)
+            // USE O NOVO SERVICE ID E O NOVO TEMPLATE ID
+            emailjs.send('service_opdy6d8', 'template_jfsltja', formData)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     formMessage.textContent = 'Mensagem enviada com sucesso! Entrarei em contato em breve.';
                     formMessage.className = 'form-message success';
                     formMessage.style.display = 'block';
                     document.getElementById('contactForm').reset();
-                    
-                    // RESETAR O reCAPTCHA
-                    grecaptcha.reset();
                     
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
@@ -1186,9 +1170,6 @@ emailjs.send('service_opdy6d8', 'template_jfsltja', formData)
                     formMessage.textContent = 'Erro ao enviar mensagem. Por favor, tente novamente ou entre em contato diretamente pelo WhatsApp.';
                     formMessage.className = 'form-message error';
                     formMessage.style.display = 'block';
-                    
-                    // RESETAR O reCAPTCHA EM CASO DE ERRO TAMBÉM
-                    grecaptcha.reset();
                     
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
